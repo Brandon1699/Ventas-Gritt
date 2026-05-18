@@ -1,111 +1,119 @@
 :root {
-    --bg-color: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --primary: #3b82f6;
-    --primary-hover: #2563eb;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --border: rgba(255, 255, 255, 0.1);
-    --danger: #ef4444;
-    --success: #10b981;
+    --bg-color: #f2f2f7;
+    --card-bg: #ffffff;
+    --primary: #000000;
+    --primary-hover: #333333;
+    --text-main: #000000;
+    --text-muted: #8e8e93;
+    --border: #c6c6c8;
+    --danger: #ff3b30;
+    --success: #34c759;
+    --nav-bg: rgba(255, 255, 255, 0.85);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     min-height: 100vh;
-    padding: 20px;
-    background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.15), transparent 400px),
-                      radial-gradient(circle at bottom left, rgba(16, 185, 129, 0.1), transparent 400px);
 }
 
 .app-container {
-    background: var(--card-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
+    background: var(--bg-color);
     width: 100%;
-    max-width: 600px;
-    padding: 32px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    transition: max-width 0.3s ease;
+    min-height: 100vh;
+    padding-bottom: 80px; /* tab bar space */
 }
 
 header {
-    margin-bottom: 24px;
-    text-align: center;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
+header > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 44px;
+    padding: 0 16px;
 }
 
 header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-size: 17px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.4px;
 }
 
-header p {
-    color: var(--text-muted);
-    font-size: 14px;
+main {
+    padding: 16px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     position: relative;
 }
 
 label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-left: 8px;
 }
 
-input {
+input, select {
     width: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 16px;
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
     color: var(--text-main);
-    font-size: 16px;
-    transition: all 0.2s ease;
+    font-size: 17px;
     outline: none;
+    appearance: none;
+    -webkit-appearance: none;
 }
 
-input:focus {
+input:focus, select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .checkbox-label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--text-main);
     cursor: pointer;
     font-weight: 500;
+    padding: 8px;
 }
 
 .checkbox-label input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
     margin: 0;
+    border-radius: 6px;
 }
 
 .dropdown {
@@ -113,14 +121,14 @@ input:focus {
     top: 100%;
     left: 0;
     right: 0;
-    background: #1e293b;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-top: 8px;
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-top: 4px;
     max-height: 200px;
     overflow-y: auto;
     z-index: 10;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: none;
     list-style: none;
 }
@@ -132,8 +140,8 @@ input:focus {
 .dropdown li {
     padding: 12px 16px;
     cursor: pointer;
-    border-bottom: 1px solid var(--border);
-    transition: background 0.2s;
+    border-bottom: 0.5px solid var(--border);
+    font-size: 15px;
 }
 
 .dropdown li:last-child {
@@ -141,16 +149,15 @@ input:focus {
 }
 
 .dropdown li:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-color);
 }
 
 .product-card {
-    background: rgba(15, 23, 42, 0.4);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+    background: var(--card-bg);
+    border-radius: 12px;
     padding: 16px;
     margin-bottom: 20px;
-    animation: fadeIn 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .product-info {
@@ -160,14 +167,14 @@ input:focus {
 .product-type {
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--primary);
+    color: var(--text-muted);
     font-weight: 600;
 }
 
 .product-info h3 {
     font-size: 18px;
     margin: 4px 0;
+    font-weight: 600;
 }
 
 .product-badge {
@@ -175,9 +182,9 @@ input:focus {
     background: var(--danger);
     color: white;
     font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-weight: 700;
     text-transform: uppercase;
 }
 
@@ -185,75 +192,61 @@ input:focus {
     display: flex;
     justify-content: space-between;
     gap: 8px;
-    flex-wrap: wrap;
 }
 
 .tier {
     flex: 1;
     text-align: center;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-color);
     padding: 8px;
     border-radius: 8px;
-    min-width: 60px;
 }
 
 .tier span {
     display: block;
     font-size: 11px;
     color: var(--text-muted);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .tier strong {
-    font-size: 13px;
-    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .quantity-control {
     display: flex;
     align-items: center;
+    background: var(--card-bg);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .quantity-control button {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-color);
     border: none;
-    color: white;
+    color: var(--primary);
     width: 48px;
     height: 48px;
-    border-radius: 12px;
     font-size: 20px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.quantity-control button:hover {
-    background: rgba(255, 255, 255, 0.2);
+    font-weight: 500;
 }
 
 .quantity-control input {
-    flex: 1;
+    border: none;
+    border-radius: 0;
+    border-left: 0.5px solid var(--border);
+    border-right: 0.5px solid var(--border);
     text-align: center;
-    margin: 0 12px;
-    padding: 0;
-    height: 48px;
-}
-
-/* Remove arrows from number input */
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-input[type=number] {
-    -moz-appearance: textfield;
 }
 
 .summary-card {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 16px;
-    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
     margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .summary-row {
@@ -266,17 +259,17 @@ input[type=number] {
 .summary-row:last-child {
     margin-bottom: 0;
     padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 0.5px solid var(--border);
 }
 
 .summary-row span {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--text-muted);
 }
 
 .summary-row .highlight-text {
     color: var(--success);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .summary-row.total span {
@@ -285,7 +278,7 @@ input[type=number] {
 }
 
 .summary-row.total #total-price {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--success);
 }
@@ -296,44 +289,29 @@ input[type=number] {
     color: white;
     border: none;
     border-radius: 12px;
-    padding: 16px;
-    font-size: 16px;
+    padding: 14px;
+    font-size: 17px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.btn-primary:hover:not(:disabled) {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4);
-}
-
 .btn-primary:disabled {
-    background: #334155;
-    color: #64748b;
-    cursor: not-allowed;
+    background: #e5e5ea;
+    color: #aeaeb2;
 }
 
 .btn-secondary {
     width: 100%;
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--primary);
+    border: 0.5px solid var(--border);
     border-radius: 12px;
-    padding: 16px;
-    font-size: 16px;
+    padding: 14px;
+    font-size: 17px;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
     margin-top: 12px;
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .loader {
@@ -342,9 +320,9 @@ input[type=number] {
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
     border-radius: 50%;
     border-top-color: var(--primary);
     animation: spin 1s ease-in-out infinite;
@@ -355,22 +333,16 @@ input[type=number] {
     to { transform: rotate(360deg); }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 .success-message {
     text-align: center;
     padding: 40px 0;
-    animation: fadeIn 0.5s ease;
 }
 
 .icon-check {
     width: 64px;
     height: 64px;
-    background: rgba(16, 185, 129, 0.2);
-    color: var(--success);
+    background: var(--success);
+    color: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -379,11 +351,6 @@ input[type=number] {
     margin: 0 auto 24px;
 }
 
-.success-message h2 {
-    margin-bottom: 24px;
-}
-
-/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -391,8 +358,7 @@ input[type=number] {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.4);
     z-index: 100;
     justify-content: center;
     align-items: center;
@@ -404,38 +370,39 @@ input[type=number] {
 
 .modal-content {
     background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px;
+    border-radius: 14px;
+    padding: 24px;
     width: 90%;
     max-width: 400px;
     text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 .modal-content h2 {
     margin-bottom: 12px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .modal-content p {
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 24px;
 }
 
-.modal-content input {
-    margin-bottom: 20px;
-}
-
-/* Tabs */
 .tabs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 0.5px solid var(--border);
     display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 16px;
-    background: rgba(15, 23, 42, 0.6);
-    padding: 6px;
-    border-radius: 16px;
-    border: 1px solid var(--border);
+    justify-content: space-around;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
 }
 
 .tab-btn {
@@ -443,183 +410,72 @@ input[type=number] {
     background: transparent;
     color: var(--text-muted);
     border: none;
-    padding: 10px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.tab-btn:hover {
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .tab-btn.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-/* Products View */
-.products-header {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.products-header h2 {
-    font-size: 20px;
-    color: var(--text-main);
+    color: var(--primary);
 }
 
 .products-table-container {
     width: 100%;
-    overflow-x: auto;
-    max-height: 500px;
+    background: var(--card-bg);
     border-radius: 12px;
-    border: 1px solid var(--border);
-    background: rgba(15, 23, 42, 0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    overflow: hidden;
 }
 
 .products-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
-    white-space: nowrap;
 }
 
 .products-table th {
-    position: sticky;
-    top: 0;
-    background: rgba(30, 41, 59, 0.95);
-    backdrop-filter: blur(8px);
+    background: var(--bg-color);
     padding: 12px 16px;
     text-align: left;
     color: var(--text-muted);
     font-weight: 600;
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--border);
-    z-index: 1;
+    border-bottom: 0.5px solid var(--border);
 }
 
 .products-table td {
     padding: 12px 16px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
     color: var(--text-main);
-}
-
-.products-table tr:hover {
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .products-table tr:last-child td {
     border-bottom: none;
 }
 
-.products-table td strong {
-    font-weight: 500;
-    color: var(--primary);
-}
-
-/* Custom Scrollbar for container */
-.products-table-container::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-.products-table-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-}
-.products-table-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-}
-
-/* Filters & Sorting */
-.filters-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.quick-filters {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    background: transparent;
+.filter-btn, .filter-select {
+    background: var(--card-bg);
     color: var(--text-main);
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.filter-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
+    border: 0.5px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .filter-btn.active {
-    background: var(--danger);
-    border-color: var(--danger);
+    background: var(--primary);
     color: white;
-}
-
-.filter-select {
-    background: rgba(15, 23, 42, 0.6);
-    color: var(--text-main);
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.2s;
-}
-
-.filter-select:focus {
     border-color: var(--primary);
 }
 
-.sortable {
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-}
-
-.sortable:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-}
-
-.sort-icon {
-    font-size: 10px;
-    margin-left: 4px;
-    display: inline-block;
-    transition: transform 0.2s;
-}
-
-/* Edit / Add product buttons */
 .btn-icon {
     background: transparent;
     border: none;
     color: var(--primary);
+    padding: 8px;
     cursor: pointer;
-    padding: 6px;
-    border-radius: 6px;
-    transition: all 0.2s;
-    font-size: 16px;
-}
-
-.btn-icon:hover {
-    background: rgba(59, 130, 246, 0.2);
 }
