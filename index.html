@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ventas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header style="position: relative;">
+            <h1>Sistema de Gestión</h1>
+            <button id="btn-config" class="btn-icon" style="position: absolute; top: 0; right: 0; font-size: 20px; color: var(--text-muted);" title="Configurar URL">⚙️</button>
+            <nav class="tabs">
+                <button id="tab-venta" class="tab-btn active">Nueva Venta</button>
+                <button id="tab-productos" class="tab-btn">Productos</button>
+            </nav>
+        </header>
+
+        <main>
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p>Cargando datos...</p>
+            </div>
+
+            <div id="view-venta" class="view-section" style="display: none;">
+                <form id="venta-form">
+                <div class="form-group">
+                    <label for="search-input">Buscar Prenda</label>
+                    <input type="text" id="search-input" placeholder="Ej. Buzo Baggy Nike..." autocomplete="off">
+                    <ul id="search-results" class="dropdown"></ul>
+                </div>
+
+                <div id="selected-product-card" class="product-card" style="display: none;">
+                    <div class="product-info">
+                        <span class="product-type" id="display-type">Tipo</span>
+                        <h3 id="display-name">Nombre Prenda</h3>
+                        <span class="product-badge" id="display-remate" style="display: none;">¡Remate!</span>
+                    </div>
+                    
+                    <div class="price-tiers">
+                        <div class="tier">
+                            <span>Unidad</span>
+                            <strong id="price-1">S/ 0</strong>
+                        </div>
+                        <div class="tier">
+                            <span>≥ 3</span>
+                            <strong id="price-3">S/ 0</strong>
+                        </div>
+                        <div class="tier">
+                            <span>≥ 6</span>
+                            <strong id="price-6">S/ 0</strong>
+                        </div>
+                        <div class="tier">
+                            <span>≥ 12</span>
+                            <strong id="price-12">S/ 0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <div class="quantity-control">
+                            <button type="button" id="btn-minus">-</button>
+                            <input type="number" id="cantidad" value="1" min="1" required>
+                            <button type="button" id="btn-plus">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRECIO PERSONALIZADO -->
+                <div class="form-group custom-price-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="check-custom-price">
+                        Usar precio especial / manual
+                    </label>
+                    <div id="custom-price-container" style="display: none; margin-top: 10px;">
+                        <input type="number" id="custom-price-input" step="0.1" placeholder="Ej. 40.50">
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-row">
+                        <span>Precio Aplicado:</span>
+                        <span id="applied-price" class="highlight-text">S/ 0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="total-price">S/ 0.00</span>
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-submit" class="btn-primary" disabled>
+                    Registrar Venta
+                </button>
+            </form>
+            
+            <div id="success-message" class="success-message" style="display: none;">
+                <div class="icon-check">✓</div>
+                <h2>¡Venta Registrada!</h2>
+                <button type="button" id="btn-new-sale" class="btn-secondary">Registrar Otra Venta</button>
+            </div>
+            </div>
+
+            <div id="view-productos" class="view-section" style="display: none;">
+                <div class="products-header" style="flex-direction: row; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <h2>Catálogo de Productos</h2>
+                    </div>
+                    <button id="btn-add-product" class="btn-primary" style="width: auto; padding: 10px 16px; font-size: 14px;">➕ Añadir Producto</button>
+                    
+                    <div class="filters-container" style="width: 100%; margin-top: 12px;">
+                        <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                            <input type="text" id="filter-productos" placeholder="Buscar por nombre, tipo, precio o 'remate'..." autocomplete="off">
+                        </div>
+                        <div class="quick-filters" id="quick-filters">
+                            <button type="button" id="btn-filter-remate" class="filter-btn">Solo Remate</button>
+                            <select id="select-filter-tipo" class="filter-select">
+                                <option value="todos">Todos los tipos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="products-table-container">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-sort="Prenda">Prenda <span class="sort-icon"></span></th>
+                                <th class="sortable" data-sort="Unidad">Unidad <span class="sort-icon"></span></th>
+                                <th class="sortable" data-sort="≥ 3">≥ 3 <span class="sort-icon"></span></th>
+                                <th class="sortable" data-sort="≥ 6">≥ 6 <span class="sort-icon"></span></th>
+                                <th class="sortable" data-sort="≥ 12">≥ 12 <span class="sort-icon"></span></th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-tbody">
+                            <!-- Productos se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para configurar URL -->
+    <div id="config-modal" class="modal">
+        <div class="modal-content">
+            <h2>Configuración Requerida</h2>
+            <p>Por favor, pega la URL de tu Google Web App para poder conectar la aplicación.</p>
+            <input type="text" id="script-url" placeholder="https://script.google.com/macros/s/.../exec">
+            <button id="btn-save-url" class="btn-primary">Guardar e Iniciar</button>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Producto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px; text-align: left;">
+            <h2 id="product-modal-title">Añadir Producto</h2>
+            <form id="product-form">
+                <input type="hidden" id="original-prenda" value="">
+                
+                <div class="form-group">
+                    <label for="prod-tipo">Tipo de Prenda</label>
+                    <input type="text" id="prod-tipo" required placeholder="Ej. Buzo, Casaca...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="prod-prenda">Nombre de la Prenda</label>
+                    <input type="text" id="prod-prenda" required placeholder="Ej. Buzo Baggy Nike">
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="prod-remate">
+                        ¿Es Remate?
+                    </label>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label for="prod-u">Precio Unidad</label>
+                        <input type="text" id="prod-u" required placeholder="S/ 45">
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-3">Precio ≥ 3</label>
+                        <input type="text" id="prod-3" required placeholder="S/ 43">
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-6">Precio ≥ 6</label>
+                        <input type="text" id="prod-6" required placeholder="S/ 38">
+                    </div>
+                    <div class="form-group">
+                        <label for="prod-12">Precio ≥ 12</label>
+                        <input type="text" id="prod-12" required placeholder="S/ 37">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 16px;">
+                    <button type="button" id="btn-cancel-product" class="btn-secondary" style="margin-top: 0;">Cancelar</button>
+                    <button type="submit" id="btn-save-product" class="btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
