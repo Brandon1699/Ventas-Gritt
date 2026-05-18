@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const productsTbody = document.getElementById('products-tbody');
     const filterProductos = document.getElementById('filter-productos');
+    const btnToggleFilters = document.getElementById('btn-toggle-filters');
+    const advancedFilters = document.getElementById('advanced-filters');
     
     // Elementos de Modal de Productos
     const productModal = document.getElementById('product-modal');
@@ -448,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productsTbody.innerHTML = '';
         
         if (productsToRender.length === 0) {
-            productsTbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 20px;">No se encontraron productos.</td></tr>';
+            productsTbody.innerHTML = '<tr><td colspan="2" style="text-align: center; color: var(--text-muted); padding: 20px;">No se encontraron productos.</td></tr>';
             return;
         }
 
@@ -458,18 +460,19 @@ document.addEventListener('DOMContentLoaded', () => {
             
             tr.innerHTML = `
                 <td>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <strong>${p['Prenda'] || 'Sin nombre'}</strong>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <strong style="font-size: 15px;">${p['Prenda'] || 'Sin nombre'}</strong>
                         ${isRemate ? '<span class="product-badge">¡Remate!</span>' : ''}
                     </div>
-                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">${p['Tipo de Prenda'] || ''}</div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; font-size: 12px; color: var(--text-muted);">
+                        <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">U: <span style="color: var(--text-main); font-weight: 500;">${formatPrice(parsePrice(p['Unidad']))}</span></span>
+                        <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">≥3: <span style="color: var(--text-main); font-weight: 500;">${formatPrice(parsePrice(p['≥ 3']))}</span></span>
+                        <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">≥6: <span style="color: var(--text-main); font-weight: 500;">${formatPrice(parsePrice(p['≥ 6']))}</span></span>
+                        <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">≥12: <span style="color: var(--text-main); font-weight: 500;">${formatPrice(parsePrice(p['≥ 12']))}</span></span>
+                    </div>
                 </td>
-                <td>${formatPrice(parsePrice(p['Unidad']))}</td>
-                <td>${formatPrice(parsePrice(p['≥ 3']))}</td>
-                <td>${formatPrice(parsePrice(p['≥ 6']))}</td>
-                <td>${formatPrice(parsePrice(p['≥ 12']))}</td>
-                <td>
-                    <button class="btn-icon btn-edit-row" title="Editar">✏️</button>
+                <td style="text-align: right; vertical-align: middle;">
+                    <button class="btn-icon btn-edit-row" title="Editar" style="padding: 10px; background: rgba(59, 130, 246, 0.1);">✏️</button>
                 </td>
             `;
             
@@ -584,4 +587,16 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFiltersAndSort();
         });
     });
+
+    if (btnToggleFilters) {
+        btnToggleFilters.addEventListener('click', () => {
+            if (advancedFilters.style.display === 'none') {
+                advancedFilters.style.display = 'flex';
+                btnToggleFilters.style.background = 'rgba(255, 255, 255, 0.1)';
+            } else {
+                advancedFilters.style.display = 'none';
+                btnToggleFilters.style.background = 'transparent';
+            }
+        });
+    }
 });

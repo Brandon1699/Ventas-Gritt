@@ -105,22 +105,26 @@
             </div>
 
             <div id="view-productos" class="view-section" style="display: none;">
-                <div class="products-header" style="flex-direction: row; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 250px;">
-                        <h2>Catálogo de Productos</h2>
+                <div class="products-header" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h2 style="margin: 0; font-size: 20px;">Catálogo</h2>
+                        <button id="btn-add-product" class="btn-primary" style="width: auto; padding: 8px 14px; font-size: 13px;">➕ Añadir</button>
                     </div>
-                    <button id="btn-add-product" class="btn-primary" style="width: auto; padding: 10px 16px; font-size: 14px;">➕ Añadir Producto</button>
                     
-                    <div class="filters-container" style="width: 100%; margin-top: 12px;">
-                        <div class="form-group" style="margin-bottom: 0; flex: 1;">
-                            <input type="text" id="filter-productos" placeholder="Buscar por nombre, tipo, precio o 'remate'..." autocomplete="off">
+                    <div style="display: flex; gap: 8px;">
+                        <div style="flex: 1; position: relative;">
+                            <input type="text" id="filter-productos" placeholder="Buscar producto..." autocomplete="off" style="padding: 10px 14px; height: 42px;">
                         </div>
-                        <div class="quick-filters" id="quick-filters">
-                            <button type="button" id="btn-filter-remate" class="filter-btn">Solo Remate</button>
-                            <select id="select-filter-tipo" class="filter-select">
-                                <option value="todos">Todos los tipos</option>
-                            </select>
-                        </div>
+                        <button id="btn-toggle-filters" class="btn-secondary" style="margin-top: 0; width: 42px; height: 42px; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 12px;" title="Filtros">
+                            <span style="font-size: 18px;">⚙️</span>
+                        </button>
+                    </div>
+
+                    <div id="advanced-filters" style="display: none; gap: 8px; flex-wrap: wrap; margin-top: -4px;">
+                        <button type="button" id="btn-filter-remate" class="filter-btn" style="flex: 1; text-align: center; height: 38px;">Solo Remate</button>
+                        <select id="select-filter-tipo" class="filter-select" style="flex: 1; height: 38px;">
+                            <option value="todos">Todos los tipos</option>
+                        </select>
                     </div>
                 </div>
                 <div class="products-table-container">
@@ -128,11 +132,7 @@
                         <thead>
                             <tr>
                                 <th class="sortable" data-sort="Prenda">Prenda <span class="sort-icon"></span></th>
-                                <th class="sortable" data-sort="Unidad">Unidad <span class="sort-icon"></span></th>
-                                <th class="sortable" data-sort="≥ 3">≥ 3 <span class="sort-icon"></span></th>
-                                <th class="sortable" data-sort="≥ 6">≥ 6 <span class="sort-icon"></span></th>
-                                <th class="sortable" data-sort="≥ 12">≥ 12 <span class="sort-icon"></span></th>
-                                <th>Acciones</th>
+                                <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="products-tbody">
