@@ -21,8 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     const viewVenta = document.getElementById('view-venta');
     const viewProductos = document.getElementById('view-productos');
+    const viewHistorial = document.getElementById('view-historial');
     const tabVenta = document.getElementById('tab-venta');
     const tabProductos = document.getElementById('tab-productos');
+    const tabHistorial = document.getElementById('tab-historial');
     
     const form = document.getElementById('venta-form');
     const searchInput = document.getElementById('search-input');
@@ -57,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterProductos = document.getElementById('filter-productos');
     const btnToggleFilters = document.getElementById('btn-toggle-filters');
     const advancedFilters = document.getElementById('advanced-filters');
+    
+    // Elementos Historial
+    const ventasList = document.getElementById('ventas-list');
+    const btnRefreshVentas = document.getElementById('btn-refresh-ventas');
     
     // Elementos de Modal de Productos
     const productModal = document.getElementById('product-modal');
@@ -129,9 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (tabVenta.classList.contains('active')) {
                     viewVenta.style.display = 'block';
                     viewProductos.style.display = 'none';
-                } else {
+                    viewHistorial.style.display = 'none';
+                } else if (tabProductos.classList.contains('active')) {
                     viewVenta.style.display = 'none';
                     viewProductos.style.display = 'block';
+                    viewHistorial.style.display = 'none';
+                } else {
+                    viewVenta.style.display = 'none';
+                    viewProductos.style.display = 'none';
+                    viewHistorial.style.display = 'block';
                 }
                 
                 form.style.display = 'block'; // Asegurar que el formulario no se oculte permanentemente
@@ -358,16 +370,88 @@ document.addEventListener('DOMContentLoaded', () => {
     tabVenta.addEventListener('click', () => {
         tabVenta.classList.add('active');
         tabProductos.classList.remove('active');
+        if(tabHistorial) tabHistorial.classList.remove('active');
         viewVenta.style.display = 'block';
         viewProductos.style.display = 'none';
+        if(viewHistorial) viewHistorial.style.display = 'none';
     });
 
     tabProductos.addEventListener('click', () => {
         tabProductos.classList.add('active');
         tabVenta.classList.remove('active');
+        if(tabHistorial) tabHistorial.classList.remove('active');
         viewVenta.style.display = 'none';
         viewProductos.style.display = 'block';
+        if(viewHistorial) viewHistorial.style.display = 'none';
     });
+
+    if (tabHistorial) {
+        tabHistorial.addEventListener('click', () => {
+            tabHistorial.classList.add('active');
+            tabVenta.classList.remove('active');
+            tabProductos.classList.remove('active');
+            viewHistorial.style.display = 'block';
+            viewVenta.style.display = 'none';
+            viewProductos.style.display = 'none';
+            loadVentas();
+        });
+    }
+
+    // Cargar Historial
+    async function loadVentas() {
+        try {
+            ventasList.innerHTML = '<div class="loader" style="padding: 20px 0;"><div class="spinner"></div><p>Cargando ventas...</p></div>';
+            
+            const response = await fetch(`${SCRIPT_URL}?accion=ventas`);
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                renderVentas(result.data);
+            } else {
+                throw new Error(result.error || 'Error al cargar ventas');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            ventasList.innerHTML = `<p style="color: var(--danger); text-align: center;">Error al cargar el historial.</p>`;
+        }
+    }
+
+    function renderVentas(ventas) {
+        ventasList.innerHTML = '';
+        if (ventas.length === 0) {
+            ventasList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">No hay ventas registradas.</p>';
+            return;
+        }
+
+        ventas.forEach(v => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.marginBottom = '12px';
+            
+            const fecha = v['Fecha y Hora'] || '';
+            const prenda = v['Prenda'] || 'Sin nombre';
+            const cantidad = v['Cantidad'] || 0;
+            const total = v['Total de Venta'] || 0;
+            
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <strong style="font-size: 16px;">${prenda}</strong>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">${fecha}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 16px; font-weight: 700; color: var(--success);">${formatPrice(parseFloat(total) || 0)}</div>
+                        <div style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Cant: ${cantidad}</div>
+                    </div>
+                </div>
+            `;
+            ventasList.appendChild(card);
+        });
+    }
+
+    if (btnRefreshVentas) {
+        btnRefreshVentas.addEventListener('click', loadVentas);
+    }
 
     // Poblar dropdown de Tipos
     function populateFilterTipos(prods) {
